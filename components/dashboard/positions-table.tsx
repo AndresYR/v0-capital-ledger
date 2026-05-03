@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import {
   Table,
@@ -152,10 +152,10 @@ function TransactionTypeBadge({ type }: { type: Transaction["type"] }) {
     <Badge
       variant="outline"
       className={cn(
-        "font-medium text-xs",
-        type === "Buy" && "border-chart-1/50 bg-chart-1/10 text-chart-1",
-        type === "Sell" && "border-destructive/50 bg-destructive/10 text-destructive",
-        type === "Dividend" && "border-success/50 bg-success/10 text-success"
+        "font-medium text-[10px] px-1.5 py-0 h-5",
+        type === "Buy" && "border-chart-1/40 bg-chart-1/10 text-chart-1",
+        type === "Sell" && "border-destructive/40 bg-destructive/10 text-destructive",
+        type === "Dividend" && "border-success/40 bg-success/10 text-success"
       )}
     >
       {type}
@@ -170,39 +170,41 @@ function PositionRow({ position }: { position: Position }) {
   return (
     <>
       <TableRow
-        className="cursor-pointer hover:bg-muted/30 transition-colors"
+        className="cursor-pointer hover:bg-muted/20 transition-colors border-border/30"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <TableCell className="w-10 pr-0">
-          <button className="flex h-6 w-6 items-center justify-center rounded hover:bg-muted">
+        <TableCell className="w-8 pl-3 pr-0">
+          <div className="flex h-5 w-5 items-center justify-center">
             {isExpanded ? (
-              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
             ) : (
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
             )}
-          </button>
-        </TableCell>
-        <TableCell className="font-medium">
-          <div className="flex flex-col">
-            <span className="text-foreground font-semibold">{position.ticker}</span>
-            <span className="text-xs text-muted-foreground">{position.name}</span>
           </div>
         </TableCell>
-        <TableCell className="text-right font-mono tabular-nums">
+        <TableCell className="py-3">
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[13px] font-semibold text-foreground tracking-tight">
+              {position.ticker}
+            </span>
+            <span className="text-[11px] text-muted-foreground/70">{position.name}</span>
+          </div>
+        </TableCell>
+        <TableCell className="text-right font-mono text-[13px] tabular-nums text-muted-foreground">
           {position.shares.toLocaleString()}
         </TableCell>
-        <TableCell className="text-right font-mono tabular-nums">
+        <TableCell className="text-right font-mono text-[13px] tabular-nums text-muted-foreground">
           {formatCurrency(position.avgPrice)}
         </TableCell>
-        <TableCell className="text-right font-mono tabular-nums">
+        <TableCell className="text-right font-mono text-[13px] tabular-nums text-muted-foreground">
           {formatCurrency(position.currentPrice)}
         </TableCell>
-        <TableCell className="text-right font-mono tabular-nums font-medium">
+        <TableCell className="text-right font-mono text-[13px] tabular-nums font-medium text-foreground">
           {formatCurrency(position.marketValue)}
         </TableCell>
         <TableCell
           className={cn(
-            "text-right font-mono tabular-nums font-medium",
+            "text-right font-mono text-[13px] tabular-nums font-medium",
             isPositive ? "text-success" : "text-destructive"
           )}
         >
@@ -210,7 +212,7 @@ function PositionRow({ position }: { position: Position }) {
         </TableCell>
         <TableCell
           className={cn(
-            "text-right font-mono tabular-nums font-medium",
+            "text-right font-mono text-[13px] tabular-nums font-medium pr-4",
             isPositive ? "text-success" : "text-destructive"
           )}
         >
@@ -219,48 +221,58 @@ function PositionRow({ position }: { position: Position }) {
         </TableCell>
       </TableRow>
       {isExpanded && (
-        <TableRow className="hover:bg-transparent">
+        <TableRow className="hover:bg-transparent border-none">
           <TableCell colSpan={8} className="p-0">
-            <div className="bg-muted/20 border-t border-b border-border/50 px-6 py-4">
-              <h4 className="text-xs font-medium uppercase tracking-wider text-muted-foreground mb-3">
-                Transaction History
-              </h4>
-              <Table>
-                <TableHeader>
-                  <TableRow className="hover:bg-transparent border-border/30">
-                    <TableHead className="text-xs text-muted-foreground h-8">Date</TableHead>
-                    <TableHead className="text-xs text-muted-foreground h-8">Type</TableHead>
-                    <TableHead className="text-xs text-muted-foreground h-8 text-right">Quantity</TableHead>
-                    <TableHead className="text-xs text-muted-foreground h-8 text-right">Price</TableHead>
-                    <TableHead className="text-xs text-muted-foreground h-8 text-right">Fees</TableHead>
-                    <TableHead className="text-xs text-muted-foreground h-8 text-right">Total</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {position.transactions.map((tx) => (
-                    <TableRow key={tx.id} className="hover:bg-muted/20 border-border/30">
-                      <TableCell className="font-mono text-sm tabular-nums py-2.5">
-                        {tx.date}
-                      </TableCell>
-                      <TableCell className="py-2.5">
-                        <TransactionTypeBadge type={tx.type} />
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-sm tabular-nums py-2.5">
-                        {tx.quantity.toLocaleString()}
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-sm tabular-nums py-2.5">
-                        {formatCurrency(tx.price)}
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-sm tabular-nums py-2.5">
-                        {formatCurrency(tx.fees)}
-                      </TableCell>
-                      <TableCell className="text-right font-mono text-sm tabular-nums font-medium py-2.5">
-                        {formatCurrency(tx.total)}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="border-t border-b border-border/20 bg-muted/10 mx-2 mb-1 rounded-md">
+              <div className="px-4 py-3">
+                <h4 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/80 mb-2.5">
+                  Transaction History
+                </h4>
+                <div className="rounded-md border border-border/30 overflow-hidden">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="hover:bg-transparent border-border/20 bg-muted/30">
+                        <TableHead className="text-[10px] text-muted-foreground h-7 font-medium">Date</TableHead>
+                        <TableHead className="text-[10px] text-muted-foreground h-7 font-medium">Type</TableHead>
+                        <TableHead className="text-[10px] text-muted-foreground h-7 text-right font-medium">Qty</TableHead>
+                        <TableHead className="text-[10px] text-muted-foreground h-7 text-right font-medium">Price</TableHead>
+                        <TableHead className="text-[10px] text-muted-foreground h-7 text-right font-medium">Fees</TableHead>
+                        <TableHead className="text-[10px] text-muted-foreground h-7 text-right font-medium">Total</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {position.transactions.map((tx, idx) => (
+                        <TableRow 
+                          key={tx.id} 
+                          className={cn(
+                            "hover:bg-muted/20",
+                            idx === position.transactions.length - 1 ? "border-none" : "border-border/20"
+                          )}
+                        >
+                          <TableCell className="font-mono text-[12px] tabular-nums py-2 text-muted-foreground">
+                            {tx.date}
+                          </TableCell>
+                          <TableCell className="py-2">
+                            <TransactionTypeBadge type={tx.type} />
+                          </TableCell>
+                          <TableCell className="text-right font-mono text-[12px] tabular-nums py-2 text-muted-foreground">
+                            {tx.quantity.toLocaleString()}
+                          </TableCell>
+                          <TableCell className="text-right font-mono text-[12px] tabular-nums py-2 text-muted-foreground">
+                            {formatCurrency(tx.price)}
+                          </TableCell>
+                          <TableCell className="text-right font-mono text-[12px] tabular-nums py-2 text-muted-foreground">
+                            {formatCurrency(tx.fees)}
+                          </TableCell>
+                          <TableCell className="text-right font-mono text-[12px] tabular-nums font-medium py-2 text-foreground/90">
+                            {formatCurrency(tx.total)}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             </div>
           </TableCell>
         </TableRow>
@@ -279,45 +291,46 @@ export function PositionsTable() {
   )
 
   return (
-    <Card className="border-border/50 bg-card">
-      <CardHeader className="flex flex-row items-center justify-between pb-4">
-        <CardTitle className="text-base font-medium text-foreground">
+    <Card className="border-border/40 bg-card">
+      <CardHeader className="flex flex-row items-center justify-between pb-3 pt-4 px-4">
+        <h3 className="text-[13px] font-medium text-muted-foreground">
           Positions
-        </CardTitle>
-        <div className="relative w-64">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <span className="ml-2 text-foreground">{positions.length}</span>
+        </h3>
+        <div className="relative w-56">
+          <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search positions..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 h-9 bg-muted/30 border-border/50 text-sm placeholder:text-muted-foreground focus-visible:ring-ring/30"
+            className="pl-8 h-8 bg-muted/30 border-border/40 text-[12px] placeholder:text-muted-foreground/60 focus-visible:ring-ring/20"
           />
         </div>
       </CardHeader>
-      <CardContent className="px-0 pb-0">
+      <CardContent className="px-0 pb-1">
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-transparent border-border/50">
-              <TableHead className="w-10" />
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            <TableRow className="hover:bg-transparent border-border/40">
+              <TableHead className="w-8 pl-3" />
+              <TableHead className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/80">
                 Ticker
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-muted-foreground text-right">
+              <TableHead className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/80 text-right">
                 Shares
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-muted-foreground text-right">
+              <TableHead className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/80 text-right">
                 Avg Price
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-muted-foreground text-right">
-                Current Price
+              <TableHead className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/80 text-right">
+                Current
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-muted-foreground text-right">
+              <TableHead className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/80 text-right">
                 Market Value
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-muted-foreground text-right">
-                Return %
+              <TableHead className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/80 text-right">
+                Return
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-muted-foreground text-right pr-6">
+              <TableHead className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/80 text-right pr-4">
                 P/L
               </TableHead>
             </TableRow>

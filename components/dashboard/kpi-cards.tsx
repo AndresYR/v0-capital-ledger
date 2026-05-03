@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card"
-import { TrendingUp, TrendingDown, DollarSign, Percent } from "lucide-react"
+import { TrendingUp, TrendingDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface KPICardProps {
@@ -7,45 +7,37 @@ interface KPICardProps {
   value: string
   delta?: string
   deltaType?: "positive" | "negative" | "neutral"
-  subtitle?: string
-  icon: React.ReactNode
+  context?: string
 }
 
-function KPICard({ label, value, delta, deltaType = "neutral", subtitle, icon }: KPICardProps) {
+function KPICard({ label, value, delta, deltaType = "neutral", context }: KPICardProps) {
   return (
-    <Card className="relative overflow-hidden border-border/50 bg-card p-5">
-      <div className="flex items-start justify-between">
-        <div className="space-y-2">
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            {label}
-          </p>
-          <p className="text-2xl font-semibold tracking-tight text-foreground tabular-nums">
-            {value}
-          </p>
-          {(delta || subtitle) && (
-            <div className="flex items-center gap-2">
-              {delta && (
-                <span
-                  className={cn(
-                    "inline-flex items-center gap-1 text-xs font-medium tabular-nums",
-                    deltaType === "positive" && "text-success",
-                    deltaType === "negative" && "text-destructive",
-                    deltaType === "neutral" && "text-muted-foreground"
-                  )}
-                >
-                  {deltaType === "positive" && <TrendingUp className="h-3 w-3" />}
-                  {deltaType === "negative" && <TrendingDown className="h-3 w-3" />}
-                  {delta}
-                </span>
+    <Card className="relative overflow-hidden border-border/40 bg-card p-4">
+      <div className="space-y-2">
+        <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+          {label}
+        </p>
+        <p className="text-[22px] font-semibold tracking-tight text-foreground tabular-nums leading-none">
+          {value}
+        </p>
+        <div className="flex items-center gap-1.5 pt-0.5">
+          {delta && (
+            <span
+              className={cn(
+                "inline-flex items-center gap-0.5 text-[12px] font-medium tabular-nums",
+                deltaType === "positive" && "text-success",
+                deltaType === "negative" && "text-destructive",
+                deltaType === "neutral" && "text-muted-foreground"
               )}
-              {subtitle && (
-                <span className="text-xs text-muted-foreground">{subtitle}</span>
-              )}
-            </div>
+            >
+              {deltaType === "positive" && <TrendingUp className="h-3 w-3" />}
+              {deltaType === "negative" && <TrendingDown className="h-3 w-3" />}
+              {delta}
+            </span>
           )}
-        </div>
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted/50 text-muted-foreground">
-          {icon}
+          {context && (
+            <span className="text-[11px] text-muted-foreground/70">{context}</span>
+          )}
         </div>
       </div>
     </Card>
@@ -54,38 +46,34 @@ function KPICard({ label, value, delta, deltaType = "neutral", subtitle, icon }:
 
 export function KPICards() {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-4 gap-3">
       <KPICard
-        label="Total Portfolio Value"
+        label="Portfolio Value"
         value="$847,234.56"
-        delta="+$12,847.32"
+        delta="+$12,847"
         deltaType="positive"
-        subtitle="from last month"
-        icon={<DollarSign className="h-5 w-5" />}
+        context="this month"
       />
       <KPICard
-        label="Total Gain / Loss"
-        value="+$127,892.18"
+        label="Total Gain/Loss"
+        value="+$127,892"
         delta="+17.8%"
         deltaType="positive"
-        subtitle="all time"
-        icon={<TrendingUp className="h-5 w-5" />}
+        context="all time"
       />
       <KPICard
         label="Daily Change"
-        value="-$3,421.67"
+        value="-$3,422"
         delta="-0.40%"
         deltaType="negative"
-        subtitle="today"
-        icon={<TrendingDown className="h-5 w-5" />}
+        context="today"
       />
       <KPICard
         label="Total Return"
         value="+17.78%"
         delta="+2.3%"
         deltaType="positive"
-        subtitle="vs S&P 500"
-        icon={<Percent className="h-5 w-5" />}
+        context="vs S&P 500"
       />
     </div>
   )

@@ -7,27 +7,21 @@ import { PositionsTable } from "@/components/dashboard/positions-table"
 export default function PortfolioDashboard() {
   return (
     <div className="flex h-screen bg-background">
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        <div className="mx-auto max-w-[1600px] px-8 py-8">
-          {/* Page Header */}
+        <div className="mx-auto max-w-[1400px] px-6 py-5">
           <PageHeader />
 
-          {/* KPI Summary Cards */}
-          <div className="mt-8">
+          <div className="mt-5">
             <KPICards />
           </div>
 
-          {/* Performance Chart */}
-          <div className="mt-6">
+          <div className="mt-4">
             <PerformanceChart />
           </div>
 
-          {/* Positions Table */}
-          <div className="mt-6 pb-8">
+          <div className="mt-4 pb-6">
             <PositionsTable />
           </div>
         </div>

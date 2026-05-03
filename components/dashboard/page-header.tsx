@@ -3,26 +3,37 @@ import { Download, RefreshCw, Plus } from "lucide-react"
 
 export function PageHeader() {
   return (
-    <header className="flex items-start justify-between">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+    <header className="flex items-center justify-between">
+      <div className="space-y-0.5">
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">
           Portfolio
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Track positions, performance, and transaction history
+        <p className="text-[13px] text-muted-foreground">
+          Positions, performance, and transaction history
         </p>
       </div>
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-          <Download className="mr-2 h-4 w-4" />
+      <div className="flex items-center gap-1.5">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-8 px-3 text-[13px] text-muted-foreground hover:text-foreground hover:bg-muted/50"
+        >
+          <Download className="mr-1.5 h-3.5 w-3.5" />
           Export
         </Button>
-        <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-          <RefreshCw className="mr-2 h-4 w-4" />
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-8 px-3 text-[13px] text-muted-foreground hover:text-foreground hover:bg-muted/50"
+        >
+          <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
           Rebalance
         </Button>
-        <Button size="sm" className="bg-foreground text-background hover:bg-foreground/90">
-          <Plus className="mr-2 h-4 w-4" />
+        <Button 
+          size="sm" 
+          className="h-8 px-3 text-[13px] bg-foreground text-background hover:bg-foreground/90"
+        >
+          <Plus className="mr-1.5 h-3.5 w-3.5" />
           Add Transaction
         </Button>
       </div>

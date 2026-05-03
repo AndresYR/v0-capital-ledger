@@ -8,7 +8,6 @@ import {
   BarChart3,
   FileText,
   Settings,
-  TrendingUp,
 } from "lucide-react"
 
 const navigation = [
@@ -22,51 +21,62 @@ const navigation = [
 
 export function Sidebar() {
   return (
-    <aside className="flex h-screen w-64 flex-col bg-sidebar border-r border-sidebar-border">
-      {/* Logo */}
-      <div className="flex h-16 items-center gap-2.5 px-6 border-b border-sidebar-border">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground">
-          <TrendingUp className="h-4 w-4 text-background" />
+    <aside className="flex h-screen w-60 flex-col bg-sidebar border-r border-sidebar-border">
+      {/* Logo - more distinctive branding */}
+      <div className="flex h-14 items-center gap-2.5 px-5">
+        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-foreground">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            className="h-4 w-4 text-background"
+            strokeWidth="2"
+            stroke="currentColor"
+          >
+            <path d="M3 17L9 11L13 15L21 7" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M17 7H21V11" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </div>
-        <span className="text-base font-semibold text-foreground tracking-tight">
+        <span className="text-sm font-semibold text-foreground tracking-tight">
           Capital Ledger
         </span>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-3 py-4">
-        <ul className="space-y-1">
+      {/* Navigation with refined spacing */}
+      <nav className="flex-1 px-3 pt-4">
+        <div className="space-y-0.5">
           {navigation.map((item) => {
             const Icon = item.icon
             return (
-              <li key={item.name}>
-                <a
-                  href={item.href}
-                  className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
-                    item.active
-                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
-                  )}
-                >
-                  <Icon className="h-4 w-4 shrink-0" />
-                  {item.name}
-                </a>
-              </li>
+              <a
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors",
+                  item.active
+                    ? "bg-sidebar-accent text-foreground"
+                    : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-foreground"
+                )}
+              >
+                <Icon className={cn(
+                  "h-4 w-4 shrink-0",
+                  item.active ? "text-foreground" : "text-muted-foreground"
+                )} />
+                {item.name}
+              </a>
             )
           })}
-        </ul>
+        </div>
       </nav>
 
-      {/* Footer */}
-      <div className="border-t border-sidebar-border p-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-muted text-sm font-medium text-muted-foreground">
+      {/* Profile block - more polished */}
+      <div className="border-t border-sidebar-border p-3">
+        <div className="flex items-center gap-2.5 rounded-md px-2 py-1.5 hover:bg-sidebar-accent/50 transition-colors cursor-pointer">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted/80 text-xs font-medium text-foreground">
             JD
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-foreground">John Doe</span>
-            <span className="text-xs text-muted-foreground">Premium</span>
+          <div className="flex flex-col min-w-0">
+            <span className="text-[13px] font-medium text-foreground truncate">John Doe</span>
+            <span className="text-[11px] text-muted-foreground">Premium</span>
           </div>
         </div>
       </div>
