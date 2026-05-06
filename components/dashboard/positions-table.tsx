@@ -21,6 +21,7 @@ interface Transaction {
   type: "Buy" | "Sell" | "Dividend"
   quantity: number
   price: number
+  currentPrice: number
   fees: number
   total: number
 }
@@ -50,9 +51,9 @@ const positions: Position[] = [
     returnPercent: 25.14,
     profitLoss: 5373.00,
     transactions: [
-      { id: "t1", date: "2024-01-15", type: "Buy", quantity: 50, price: 145.20, fees: 4.99, total: 7264.99 },
-      { id: "t2", date: "2024-02-20", type: "Buy", quantity: 100, price: 141.15, fees: 4.99, total: 14119.99 },
-      { id: "t3", date: "2024-03-15", type: "Dividend", quantity: 150, price: 0.24, fees: 0, total: 36.00 },
+      { id: "t1", date: "2024-01-15", type: "Buy", quantity: 50, price: 145.20, currentPrice: 178.32, fees: 4.99, total: 7264.99 },
+      { id: "t2", date: "2024-02-20", type: "Buy", quantity: 100, price: 141.15, currentPrice: 178.32, fees: 4.99, total: 14119.99 },
+      { id: "t3", date: "2024-03-15", type: "Dividend", quantity: 150, price: 0.24, currentPrice: 178.32, fees: 0, total: 36.00 },
     ],
   },
   {
@@ -66,8 +67,8 @@ const positions: Position[] = [
     returnPercent: 22.86,
     profitLoss: 6570.50,
     transactions: [
-      { id: "t4", date: "2023-11-10", type: "Buy", quantity: 50, price: 345.00, fees: 4.99, total: 17254.99 },
-      { id: "t5", date: "2024-01-05", type: "Buy", quantity: 35, price: 328.50, fees: 4.99, total: 11502.49 },
+      { id: "t4", date: "2023-11-10", type: "Buy", quantity: 50, price: 345.00, currentPrice: 415.50, fees: 4.99, total: 17254.99 },
+      { id: "t5", date: "2024-01-05", type: "Buy", quantity: 35, price: 328.50, currentPrice: 415.50, fees: 4.99, total: 11502.49 },
     ],
   },
   {
@@ -81,9 +82,9 @@ const positions: Position[] = [
     returnPercent: 80.35,
     profitLoss: 77996.00,
     transactions: [
-      { id: "t6", date: "2023-08-20", type: "Buy", quantity: 100, price: 420.50, fees: 4.99, total: 42054.99 },
-      { id: "t7", date: "2023-12-15", type: "Buy", quantity: 100, price: 550.10, fees: 4.99, total: 55014.99 },
-      { id: "t8", date: "2024-02-15", type: "Dividend", quantity: 200, price: 0.04, fees: 0, total: 8.00 },
+      { id: "t6", date: "2023-08-20", type: "Buy", quantity: 100, price: 420.50, currentPrice: 875.28, fees: 4.99, total: 42054.99 },
+      { id: "t7", date: "2023-12-15", type: "Buy", quantity: 100, price: 550.10, currentPrice: 875.28, fees: 4.99, total: 55014.99 },
+      { id: "t8", date: "2024-02-15", type: "Dividend", quantity: 200, price: 0.04, currentPrice: 875.28, fees: 0, total: 8.00 },
     ],
   },
   {
@@ -97,7 +98,7 @@ const positions: Position[] = [
     returnPercent: 23.85,
     profitLoss: 3970.80,
     transactions: [
-      { id: "t9", date: "2024-01-20", type: "Buy", quantity: 120, price: 138.75, fees: 4.99, total: 16654.99 },
+      { id: "t9", date: "2024-01-20", type: "Buy", quantity: 120, price: 138.75, currentPrice: 171.84, fees: 4.99, total: 16654.99 },
     ],
   },
   {
@@ -111,8 +112,8 @@ const positions: Position[] = [
     returnPercent: -28.61,
     profitLoss: -5334.00,
     transactions: [
-      { id: "t10", date: "2023-10-05", type: "Buy", quantity: 50, price: 260.40, fees: 4.99, total: 13024.99 },
-      { id: "t11", date: "2023-12-20", type: "Buy", quantity: 25, price: 225.00, fees: 4.99, total: 5629.99 },
+      { id: "t10", date: "2023-10-05", type: "Buy", quantity: 50, price: 260.40, currentPrice: 177.48, fees: 4.99, total: 13024.99 },
+      { id: "t11", date: "2023-12-20", type: "Buy", quantity: 25, price: 225.00, currentPrice: 177.48, fees: 4.99, total: 5629.99 },
     ],
   },
   {
@@ -126,10 +127,10 @@ const positions: Position[] = [
     returnPercent: 20.02,
     profitLoss: 19678.50,
     transactions: [
-      { id: "t12", date: "2023-06-15", type: "Buy", quantity: 200, price: 210.30, fees: 0, total: 42060.00 },
-      { id: "t13", date: "2023-09-10", type: "Buy", quantity: 150, price: 220.50, fees: 0, total: 33075.00 },
-      { id: "t14", date: "2024-02-01", type: "Buy", quantity: 100, price: 228.40, fees: 0, total: 22840.00 },
-      { id: "t15", date: "2024-03-20", type: "Dividend", quantity: 450, price: 0.82, fees: 0, total: 369.00 },
+      { id: "t12", date: "2023-06-15", type: "Buy", quantity: 200, price: 210.30, currentPrice: 262.18, fees: 0, total: 42060.00 },
+      { id: "t13", date: "2023-09-10", type: "Buy", quantity: 150, price: 220.50, currentPrice: 262.18, fees: 0, total: 33075.00 },
+      { id: "t14", date: "2024-02-01", type: "Buy", quantity: 100, price: 228.40, currentPrice: 262.18, fees: 0, total: 22840.00 },
+      { id: "t15", date: "2024-03-20", type: "Dividend", quantity: 450, price: 0.82, currentPrice: 262.18, fees: 0, total: 369.00 },
     ],
   },
 ]
@@ -220,63 +221,55 @@ function PositionRow({ position }: { position: Position }) {
           {formatCurrency(position.profitLoss)}
         </TableCell>
       </TableRow>
-      {isExpanded && (
-        <TableRow className="hover:bg-transparent border-none">
-          <TableCell colSpan={8} className="p-0">
-            <div className="border-t border-b border-border/20 bg-muted/10 mx-2 mb-1 rounded-md">
-              <div className="px-4 py-3">
-                <h4 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/80 mb-2.5">
-                  Transaction History
-                </h4>
-                <div className="rounded-md border border-border/30 overflow-hidden">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="hover:bg-transparent border-border/20 bg-muted/30">
-                        <TableHead className="text-[10px] text-muted-foreground h-7 font-medium">Date</TableHead>
-                        <TableHead className="text-[10px] text-muted-foreground h-7 font-medium">Type</TableHead>
-                        <TableHead className="text-[10px] text-muted-foreground h-7 text-right font-medium">Qty</TableHead>
-                        <TableHead className="text-[10px] text-muted-foreground h-7 text-right font-medium">Price</TableHead>
-                        <TableHead className="text-[10px] text-muted-foreground h-7 text-right font-medium">Fees</TableHead>
-                        <TableHead className="text-[10px] text-muted-foreground h-7 text-right font-medium">Total</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {position.transactions.map((tx, idx) => (
-                        <TableRow 
-                          key={tx.id} 
-                          className={cn(
-                            "hover:bg-muted/20",
-                            idx === position.transactions.length - 1 ? "border-none" : "border-border/20"
-                          )}
-                        >
-                          <TableCell className="font-mono text-[12px] tabular-nums py-2 text-muted-foreground">
-                            {tx.date}
-                          </TableCell>
-                          <TableCell className="py-2">
-                            <TransactionTypeBadge type={tx.type} />
-                          </TableCell>
-                          <TableCell className="text-right font-mono text-[12px] tabular-nums py-2 text-muted-foreground">
-                            {tx.quantity.toLocaleString()}
-                          </TableCell>
-                          <TableCell className="text-right font-mono text-[12px] tabular-nums py-2 text-muted-foreground">
-                            {formatCurrency(tx.price)}
-                          </TableCell>
-                          <TableCell className="text-right font-mono text-[12px] tabular-nums py-2 text-muted-foreground">
-                            {formatCurrency(tx.fees)}
-                          </TableCell>
-                          <TableCell className="text-right font-mono text-[12px] tabular-nums font-medium py-2 text-foreground/90">
-                            {formatCurrency(tx.total)}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+      {isExpanded &&
+        position.transactions.map((tx, idx) => {
+          const isLast = idx === position.transactions.length - 1
+          return (
+            <TableRow
+              key={tx.id}
+              className="hover:bg-muted/10 transition-colors border-none bg-muted/5"
+            >
+              <TableCell className="w-8 pl-3 pr-0 py-2">
+                <div className="flex h-full items-center justify-center">
+                  <span className="font-mono text-muted-foreground/50 text-[11px] select-none">
+                    {isLast ? "└─" : "├─"}
+                  </span>
                 </div>
-              </div>
-            </div>
-          </TableCell>
-        </TableRow>
-      )}
+              </TableCell>
+              <TableCell className="py-2">
+                <div className="flex items-center gap-2.5">
+                  <span className="font-mono text-[12px] tabular-nums text-muted-foreground">
+                    {tx.date}
+                  </span>
+                  <TransactionTypeBadge type={tx.type} />
+                </div>
+              </TableCell>
+              <TableCell className="text-right font-mono text-[12px] tabular-nums text-muted-foreground/80 py-2">
+                {tx.type === "Dividend" ? "—" : tx.quantity.toLocaleString()}
+              </TableCell>
+              <TableCell className="text-right font-mono text-[12px] tabular-nums text-muted-foreground/80 py-2">
+                {tx.type === "Dividend" ? `${formatCurrency(tx.price)}/sh` : formatCurrency(tx.price)}
+              </TableCell>
+              <TableCell className="text-right font-mono text-[12px] tabular-nums text-muted-foreground/80 py-2">
+                {formatCurrency(tx.currentPrice)}
+              </TableCell>
+              <TableCell className="text-right font-mono text-[12px] tabular-nums text-muted-foreground/80 py-2">
+                {tx.fees > 0 ? formatCurrency(tx.fees) : "—"}
+              </TableCell>
+              <TableCell className="text-right font-mono text-[12px] tabular-nums py-2">
+                <span className={cn(
+                  "font-medium",
+                  tx.type === "Dividend" ? "text-success" : 
+                  tx.type === "Sell" ? "text-destructive" : "text-foreground/80"
+                )}>
+                  {tx.type === "Sell" ? "-" : tx.type === "Dividend" ? "+" : ""}
+                  {formatCurrency(tx.total)}
+                </span>
+              </TableCell>
+              <TableCell className="pr-4 py-2" />
+            </TableRow>
+          )
+        })}
     </>
   )
 }
