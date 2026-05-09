@@ -8,6 +8,7 @@ import {
   BarChart3,
   FileText,
   Settings,
+  LogOut,
 } from "lucide-react"
 
 const navigation = [
@@ -74,10 +75,17 @@ export function Sidebar() {
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted/80 text-xs font-medium text-foreground">
             JD
           </div>
-          <div className="flex flex-col min-w-0">
+          <div className="flex flex-col min-w-0 flex-1">
             <span className="text-[13px] font-medium text-foreground truncate">John Doe</span>
             <span className="text-[11px] text-muted-foreground">Premium</span>
           </div>
+          <a
+            href="/login"
+            className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-sidebar-accent hover:text-foreground transition-colors"
+            title="Log out"
+          >
+            <LogOut className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </aside>
