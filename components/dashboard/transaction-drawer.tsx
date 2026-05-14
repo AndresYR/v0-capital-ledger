@@ -105,9 +105,9 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
             </SheetTitle>
             <button
               onClick={() => onOpenChange(false)}
-              className="rounded-md p-1 text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+              className="rounded p-1 text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors"
             >
-              <X className="h-4 w-4" />
+              <X className="h-3.5 w-3.5" />
               <span className="sr-only">Close</span>
             </button>
           </div>
