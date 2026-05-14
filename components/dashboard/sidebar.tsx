@@ -48,13 +48,15 @@ export function Sidebar() {
           </span>
         </div>
 
-        {/* Add Transaction CTA */}
-        <div className="px-3 pt-2 pb-3">
+        {/* Add Transaction CTA - native to sidebar */}
+        <div className="px-3 pt-1 pb-2">
           <button
             onClick={() => setDrawerOpen(true)}
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-foreground px-3 py-2 text-[13px] font-medium text-background transition-colors hover:bg-foreground/90"
+            className="flex w-full items-center gap-2.5 rounded-md border border-border/30 bg-sidebar-accent/50 px-2.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-sidebar-accent hover:border-border/50"
           >
-            <Plus className="h-4 w-4" />
+            <div className="flex h-5 w-5 items-center justify-center rounded bg-foreground/10">
+              <Plus className="h-3.5 w-3.5 text-foreground" />
+            </div>
             Add transaction
           </button>
         </div>
