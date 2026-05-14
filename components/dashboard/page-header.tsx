@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Download, RefreshCw, Plus } from "lucide-react"
+import { Download, RefreshCw } from "lucide-react"
 
 export function PageHeader() {
   return (
@@ -28,13 +28,6 @@ export function PageHeader() {
         >
           <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
           Rebalance
-        </Button>
-        <Button 
-          size="sm" 
-          className="h-8 px-3 text-[13px] bg-foreground text-background hover:bg-foreground/90"
-        >
-          <Plus className="mr-1.5 h-3.5 w-3.5" />
-          Add Transaction
         </Button>
       </div>
     </header>
