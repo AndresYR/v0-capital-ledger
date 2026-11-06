@@ -29,3 +29,6 @@ export const activity = [
 
 export const totalValue = holdings.reduce((sum, holding) => sum + holding.value, 0)
 export const totalCost = holdings.reduce((sum, holding) => sum + holding.cost, 0)
+export const unrealizedPnl = totalValue - totalCost
+export const realizedPnl = 1240
+export const realizedCostBasis = 12400
