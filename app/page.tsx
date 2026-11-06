@@ -1,31 +1,7 @@
 import { Sidebar } from "@/components/dashboard/sidebar"
 import { PageHeader } from "@/components/dashboard/page-header"
-import { KPICards } from "@/components/dashboard/kpi-cards"
-import { PerformanceChart } from "@/components/dashboard/performance-chart"
-import { PositionsTable } from "@/components/dashboard/positions-table"
+import { DashboardOverview } from "@/components/dashboard/dashboard-overview"
 
-export default function PortfolioDashboard() {
-  return (
-    <div className="flex h-screen bg-background">
-      <Sidebar />
-
-      <main className="flex-1 overflow-auto">
-        <div className="mx-auto max-w-[1400px] px-6 py-5">
-          <PageHeader />
-
-          <div className="mt-5">
-            <KPICards />
-          </div>
-
-          <div className="mt-4">
-            <PerformanceChart />
-          </div>
-
-          <div className="mt-4 pb-6">
-            <PositionsTable />
-          </div>
-        </div>
-      </main>
-    </div>
-  )
+export default function DashboardPage() {
+  return <div className="flex min-h-screen flex-col bg-background min-[900px]:flex-row"><Sidebar /><main className="min-w-0 flex-1 overflow-auto"><div className="mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-7 lg:px-8 xl:px-10"><PageHeader /><div className="mt-5"><DashboardOverview /></div></div></main></div>
 }

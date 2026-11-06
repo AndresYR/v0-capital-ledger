@@ -44,6 +44,10 @@
   /* Semantic colors for finance */
   --success: oklch(0.65 0.18 145);
   --success-foreground: oklch(0.15 0.02 145);
+  --positive: oklch(0.72 0.17 145);
+  --negative: oklch(0.68 0.18 20);
+  --warning: oklch(0.78 0.14 80);
+  --info: oklch(0.72 0.14 245);
   
   /* Chart colors - refined palette */
   --chart-1: oklch(0.65 0.18 220);
@@ -104,8 +108,8 @@
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback', system-ui, sans-serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback', ui-monospace, monospace;
+  --font-sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -124,6 +128,10 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
