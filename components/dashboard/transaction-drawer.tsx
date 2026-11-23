@@ -54,6 +54,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
     date: new Date().toISOString().split("T")[0],
     quantity: "",
     price: "",
+    fxRate: "1.0000",
     fees: "",
     currency: "USD",
     notes: "",
@@ -70,6 +71,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
       date: new Date().toISOString().split("T")[0],
       quantity: "",
       price: "",
+      fxRate: "1.0000",
       fees: "",
       currency: "USD",
       notes: "",
@@ -83,6 +85,8 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
   const quantity = Number.parseFloat(formData.quantity)
   const price = Number.parseFloat(formData.price)
   const fees = Number.parseFloat(formData.fees) || 0
+  const cedearRatio = 20
+  const equivalentStockShares = Number.isFinite(quantity) ? quantity / cedearRatio : 0
   const subtotal = quantity * price
   const total = Number.isFinite(subtotal) && subtotal > 0
     ? transactionType === "buy" ? subtotal + fees : Math.max(0, subtotal - fees)
@@ -286,6 +290,24 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                   </div>
                 </div>
 
+                <div className="rounded-md border border-border/30 bg-muted/10 p-3">
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground/70">CEDEAR conversion</span>
+                    <span className="text-[9px] text-muted-foreground/50">Indicative · read only</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <Label htmlFor="cedear-ratio" className="text-[10px] text-muted-foreground/70">Ratio (CEDEAR : stock)</Label>
+                      <Input id="cedear-ratio" readOnly aria-readonly="true" value={`${cedearRatio} : 1`} className="h-8 cursor-default border-border/20 bg-muted/20 text-[12px] text-muted-foreground" />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="equivalent-stock-shares" className="text-[10px] text-muted-foreground/70">Equivalent stock shares</Label>
+                      <Input id="equivalent-stock-shares" readOnly aria-readonly="true" value={equivalentStockShares.toFixed(4)} className="h-8 cursor-default border-border/20 bg-muted/20 font-mono text-[12px] tabular-nums text-muted-foreground" />
+                    </div>
+                  </div>
+                  <p className="mt-2 text-[10px] leading-relaxed text-muted-foreground/60">{formData.quantity || "0"} CEDEARs represent {equivalentStockShares.toFixed(4)} underlying shares.</p>
+                </div>
+
                 {/* Fees + Currency */}
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
@@ -308,7 +330,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                     </Label>
                     <Select
                       value={formData.currency}
-                      onValueChange={(value) => setFormData({ ...formData, currency: value })}
+                      onValueChange={(value) => setFormData({ ...formData, currency: value, fxRate: value === "USD" ? "1.0000" : "" })}
                     >
                       <SelectTrigger className="h-8 bg-muted/20 border-border/30 text-[13px] w-full">
                         <SelectValue />
@@ -323,6 +345,22 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                       </SelectContent>
                     </Select>
                   </div>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="fx-rate" className="text-[11px] text-muted-foreground/80">FX quote <span className="text-muted-foreground/60">(USD per 1 {formData.currency})</span></Label>
+                  <Input
+                    id="fx-rate"
+                    type="number"
+                    inputMode="decimal"
+                    min="0.0001"
+                    step="0.0001"
+                    placeholder="1.0000"
+                    required
+                    value={formData.fxRate}
+                    onChange={(e) => setFormData({ ...formData, fxRate: e.target.value })}
+                    className="h-9 bg-muted/20 border-border/40 font-mono text-[13px] tabular-nums placeholder:text-muted-foreground/40"
+                  />
+                  <p className="text-[10px] text-muted-foreground/60">Enter the USD conversion rate used for this trade.</p>
                 </div>
               </div>
             </div>
@@ -372,7 +410,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
               </Button>
               <Button
                 type="submit"
-                disabled={isSubmitting || !formData.symbol || !formData.quantity || !formData.price}
+                disabled={isSubmitting || !formData.symbol || !formData.quantity || !formData.price || !formData.fxRate || !Number.isFinite(Number.parseFloat(formData.fxRate)) || Number.parseFloat(formData.fxRate) <= 0}
                 className={cn(
                   "flex-1 h-8 text-[12px] font-medium",
                   isBuy
