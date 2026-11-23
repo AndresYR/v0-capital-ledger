@@ -106,7 +106,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
         className="w-full sm:w-[400px] sm:max-w-[400px] p-0 flex flex-col bg-card border-l border-border/40"
       >
         {/* Header with integrated close */}
-        <SheetHeader className="px-5 pb-4 pt-5 border-b border-border/40">
+        <SheetHeader className="px-5 pb-3 pt-4 border-b border-border/40">
           <div className="flex items-start justify-between">
             <div className="flex flex-col gap-1 text-left">
               <SheetTitle className="text-[15px] font-semibold text-foreground">
@@ -130,7 +130,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
         <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto">
             {/* Context section - Portfolio & Broker selectors */}
-            <div className="px-5 py-4 border-b border-border/30">
+            <div className="px-5 py-3 border-b border-border/30">
               <div className="mb-3 flex items-center justify-between">
                 <div className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/70">
                   Active context
@@ -183,7 +183,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
             </div>
 
             {/* Transaction type */}
-            <div className="px-5 py-4 border-b border-border/30">
+            <div className="px-5 py-3 border-b border-border/30">
               <div className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60 mb-2.5">
                 Transaction type
               </div>
@@ -220,11 +220,11 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
             </div>
 
             {/* Order details */}
-            <div className="px-5 py-4 border-b border-border/30">
-              <div className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60 mb-3">
+            <div className="px-5 py-3 border-b border-border/30">
+              <div className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60 mb-2">
                 Order details
               </div>
-              <div className="space-y-4">
+              <div className="space-y-2.5">
                 {/* Asset / Symbol */}
                 <div className="space-y-1">
                   <Label className="text-[11px] text-muted-foreground/80">
@@ -234,25 +234,40 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                     placeholder="e.g. AAPL, MSFT, VTI"
                     value={formData.symbol}
                     onChange={(e) => setFormData({ ...formData, symbol: e.target.value.toUpperCase() })}
-                    className="h-8 bg-muted/20 border-border/30 text-[13px] placeholder:text-muted-foreground/40"
+                    className="h-8 bg-muted/20 border-border/30 text-[12px] placeholder:text-muted-foreground/40"
                     required
                   />
                 </div>
 
-                {/* Date */}
-                <div className="space-y-1">
-                  <Label className="text-[11px] text-muted-foreground/80">
-                    Date
-                  </Label>
-                  <div className="relative">
+                {/* Date + FX quote */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1">
+                    <Label className="text-[11px] text-muted-foreground/80">Date</Label>
+                    <div className="relative">
+                      <Input
+                        type="date"
+                        value={formData.date}
+                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                        className="h-8 bg-muted/20 border-border/30 text-[12px] pr-7"
+                        required
+                      />
+                      <Calendar className="absolute right-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/40 pointer-events-none" />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="fx-rate" className="text-[11px] text-muted-foreground/80">FX · USD / 1 {formData.currency}</Label>
                     <Input
-                      type="date"
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                      className="h-8 bg-muted/20 border-border/30 text-[13px] pr-8"
+                      id="fx-rate"
+                      type="number"
+                      inputMode="decimal"
+                      min="0.0001"
+                      step="0.0001"
+                      placeholder="1.0000"
                       required
+                      value={formData.fxRate}
+                      onChange={(e) => setFormData({ ...formData, fxRate: e.target.value })}
+                      className="h-8 bg-muted/20 border-border/40 font-mono text-[12px] tabular-nums placeholder:text-muted-foreground/40"
                     />
-                    <Calendar className="absolute right-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/40 pointer-events-none" />
                   </div>
                 </div>
 
@@ -269,7 +284,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                       step="any"
                       value={formData.quantity}
                       onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
-                      className="h-9 bg-muted/20 border-border/40 text-[13px] font-mono tabular-nums placeholder:text-muted-foreground/40"
+                      className="h-8 bg-muted/20 border-border/40 text-[13px] font-mono tabular-nums placeholder:text-muted-foreground/40"
                       required
                     />
                   </div>
@@ -284,28 +299,27 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                       step="0.01"
                       value={formData.price}
                       onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                      className="h-9 bg-muted/20 border-border/40 text-[13px] font-mono tabular-nums placeholder:text-muted-foreground/40"
+                      className="h-8 bg-muted/20 border-border/40 text-[13px] font-mono tabular-nums placeholder:text-muted-foreground/40"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="rounded-md border border-border/30 bg-muted/10 p-3">
-                  <div className="mb-2 flex items-center justify-between">
+                <div className="rounded-md border border-border/30 bg-muted/10 p-2.5">
+                  <div className="mb-1.5 flex items-center justify-between">
                     <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground/70">CEDEAR conversion</span>
                     <span className="text-[9px] text-muted-foreground/50">Indicative · read only</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1">
-                      <Label htmlFor="cedear-ratio" className="text-[10px] text-muted-foreground/70">Ratio (CEDEAR : stock)</Label>
-                      <Input id="cedear-ratio" readOnly aria-readonly="true" value={`${cedearRatio} : 1`} className="h-8 cursor-default border-border/20 bg-muted/20 text-[12px] text-muted-foreground" />
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="cedear-ratio" className="text-[9px] text-muted-foreground/70">Ratio · CEDEAR : stock</Label>
+                      <Input id="cedear-ratio" readOnly aria-readonly="true" value={`${cedearRatio} : 1`} className="h-7 cursor-default border-border/20 bg-muted/20 px-2 text-[11px] text-muted-foreground" />
                     </div>
-                    <div className="space-y-1">
-                      <Label htmlFor="equivalent-stock-shares" className="text-[10px] text-muted-foreground/70">Equivalent stock shares</Label>
-                      <Input id="equivalent-stock-shares" readOnly aria-readonly="true" value={equivalentStockShares.toFixed(4)} className="h-8 cursor-default border-border/20 bg-muted/20 font-mono text-[12px] tabular-nums text-muted-foreground" />
+                    <div className="space-y-0.5">
+                      <Label htmlFor="equivalent-stock-shares" className="text-[9px] text-muted-foreground/70">Equivalent stock shares</Label>
+                      <Input id="equivalent-stock-shares" readOnly aria-readonly="true" value={equivalentStockShares.toFixed(4)} className="h-7 cursor-default border-border/20 bg-muted/20 px-2 font-mono text-[11px] tabular-nums text-muted-foreground" />
                     </div>
                   </div>
-                  <p className="mt-2 text-[10px] leading-relaxed text-muted-foreground/60">{formData.quantity || "0"} CEDEARs represent {equivalentStockShares.toFixed(4)} underlying shares.</p>
                 </div>
 
                 {/* Fees + Currency */}
@@ -321,7 +335,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                       step="0.01"
                       value={formData.fees}
                       onChange={(e) => setFormData({ ...formData, fees: e.target.value })}
-                      className="h-9 bg-muted/20 border-border/40 text-[13px] font-mono tabular-nums placeholder:text-muted-foreground/40"
+                      className="h-8 bg-muted/20 border-border/40 text-[13px] font-mono tabular-nums placeholder:text-muted-foreground/40"
                     />
                   </div>
                   <div className="space-y-1">
@@ -346,44 +360,29 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                     </Select>
                   </div>
                 </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="fx-rate" className="text-[11px] text-muted-foreground/80">FX quote <span className="text-muted-foreground/60">(USD per 1 {formData.currency})</span></Label>
-                  <Input
-                    id="fx-rate"
-                    type="number"
-                    inputMode="decimal"
-                    min="0.0001"
-                    step="0.0001"
-                    placeholder="1.0000"
-                    required
-                    value={formData.fxRate}
-                    onChange={(e) => setFormData({ ...formData, fxRate: e.target.value })}
-                    className="h-9 bg-muted/20 border-border/40 font-mono text-[13px] tabular-nums placeholder:text-muted-foreground/40"
-                  />
-                  <p className="text-[10px] text-muted-foreground/60">Enter the USD conversion rate used for this trade.</p>
-                </div>
               </div>
             </div>
 
-            {/* Notes section */}
-            <div className="px-5 py-4">
-              <div className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/60 mb-2.5">
-                Notes <span className="normal-case tracking-normal font-normal">(optional)</span>
-              </div>
+            {/* Optional notes stay collapsed to keep the primary trade fields in view. */}
+            <details className="px-5 py-2.5">
+              <summary className="cursor-pointer list-none text-[11px] font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                Notes <span className="font-normal text-muted-foreground/60">(optional)</span>
+              </summary>
               <textarea
+                aria-label="Optional notes"
                 placeholder="Add any additional notes..."
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 rows={2}
-                className="w-full rounded-md border border-border/30 bg-muted/20 px-2.5 py-2 text-[13px] placeholder:text-muted-foreground/40 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none resize-none"
+                className="mt-2 w-full rounded-md border border-border/30 bg-muted/20 px-2.5 py-2 text-[12px] placeholder:text-muted-foreground/40 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none resize-none"
               />
-            </div>
+            </details>
           </div>
 
           {/* Sticky footer with summary */}
           <div className="border-t border-border/30 bg-card mt-auto">
             {/* Total summary */}
-            <div className="px-5 py-3 border-b border-border/20 bg-muted/10">
+            <div className="px-5 py-2 border-b border-border/20 bg-muted/10">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <span className="block text-[11px] font-medium text-foreground">Estimated {isBuy ? "total cost" : "net proceeds"}</span>
@@ -399,7 +398,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
             </div>
             
             {/* Actions */}
-            <div className="px-5 py-3 flex gap-2">
+            <div className="px-5 py-2.5 flex gap-2">
               <Button
                 type="button"
                 variant="ghost"
