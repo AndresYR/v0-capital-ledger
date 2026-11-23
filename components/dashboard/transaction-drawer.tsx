@@ -239,7 +239,7 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                   />
                 </div>
 
-                {/* Date + FX quote */}
+                {/* Date + Currency */}
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
                     <Label className="text-[11px] text-muted-foreground/80">Date</Label>
@@ -255,19 +255,23 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                     </div>
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="fx-rate" className="text-[11px] text-muted-foreground/80">FX · USD / 1 {formData.currency}</Label>
-                    <Input
-                      id="fx-rate"
-                      type="number"
-                      inputMode="decimal"
-                      min="0.0001"
-                      step="0.0001"
-                      placeholder="1.0000"
-                      required
-                      value={formData.fxRate}
-                      onChange={(e) => setFormData({ ...formData, fxRate: e.target.value })}
-                      className="h-8 bg-muted/20 border-border/40 font-mono text-[12px] tabular-nums placeholder:text-muted-foreground/40"
-                    />
+                    <Label className="text-[11px] text-muted-foreground/80">Currency</Label>
+                    <Select
+                      value={formData.currency}
+                      onValueChange={(value) => setFormData({ ...formData, currency: value, fxRate: value === "USD" ? "1.0000" : "" })}
+                    >
+                      <SelectTrigger className="h-8 bg-muted/20 border-border/30 text-[13px] w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="USD">USD</SelectItem>
+                        <SelectItem value="EUR">EUR</SelectItem>
+                        <SelectItem value="GBP">GBP</SelectItem>
+                        <SelectItem value="JPY">JPY</SelectItem>
+                        <SelectItem value="CHF">CHF</SelectItem>
+                        <SelectItem value="CAD">CAD</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
@@ -305,29 +309,27 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                   </div>
                 </div>
 
-                <div className="rounded-md border border-border/30 bg-muted/10 p-2.5">
+                <div className="rounded-md border border-success/20 bg-success/5 p-2.5">
                   <div className="mb-1.5 flex items-center justify-between">
-                    <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground/70">CEDEAR conversion</span>
+                    <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-success/80">CEDEAR conversion</span>
                     <span className="text-[9px] text-muted-foreground/50">Indicative · read only</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2.5">
                     <div className="space-y-0.5">
                       <Label htmlFor="cedear-ratio" className="text-[9px] text-muted-foreground/70">Ratio · CEDEAR : stock</Label>
-                      <Input id="cedear-ratio" readOnly aria-readonly="true" value={`${cedearRatio} : 1`} className="h-7 cursor-default border-border/20 bg-muted/20 px-2 text-[11px] text-muted-foreground" />
+                      <Input id="cedear-ratio" readOnly aria-readonly="true" value={`${cedearRatio} : 1`} className="h-7 cursor-default border-success/15 bg-background/50 px-2 text-[11px] text-muted-foreground" />
                     </div>
                     <div className="space-y-0.5">
                       <Label htmlFor="equivalent-stock-shares" className="text-[9px] text-muted-foreground/70">Equivalent stock shares</Label>
-                      <Input id="equivalent-stock-shares" readOnly aria-readonly="true" value={equivalentStockShares.toFixed(4)} className="h-7 cursor-default border-border/20 bg-muted/20 px-2 font-mono text-[11px] tabular-nums text-muted-foreground" />
+                      <Input id="equivalent-stock-shares" readOnly aria-readonly="true" value={equivalentStockShares.toFixed(4)} className="h-7 cursor-default border-success/15 bg-background/50 px-2 font-mono text-[11px] tabular-nums text-muted-foreground" />
                     </div>
                   </div>
                 </div>
 
-                {/* Fees + Currency */}
+                {/* Fees + FX quote */}
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
-                    <Label className="text-[11px] text-muted-foreground/80">
-                      Fees / Commission
-                    </Label>
+                    <Label className="text-[11px] text-muted-foreground/80">Fees / Commission</Label>
                     <Input
                       type="number"
                       placeholder="0.00"
@@ -339,25 +341,19 @@ export function TransactionDrawer({ open, onOpenChange }: TransactionDrawerProps
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label className="text-[11px] text-muted-foreground/80">
-                      Currency
-                    </Label>
-                    <Select
-                      value={formData.currency}
-                      onValueChange={(value) => setFormData({ ...formData, currency: value, fxRate: value === "USD" ? "1.0000" : "" })}
-                    >
-                      <SelectTrigger className="h-8 bg-muted/20 border-border/30 text-[13px] w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="USD">USD</SelectItem>
-                        <SelectItem value="EUR">EUR</SelectItem>
-                        <SelectItem value="GBP">GBP</SelectItem>
-                        <SelectItem value="JPY">JPY</SelectItem>
-                        <SelectItem value="CHF">CHF</SelectItem>
-                        <SelectItem value="CAD">CAD</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="fx-rate" className="text-[11px] text-muted-foreground/80">FX · USD / 1 {formData.currency}</Label>
+                    <Input
+                      id="fx-rate"
+                      type="number"
+                      inputMode="decimal"
+                      min="0.0001"
+                      step="0.0001"
+                      placeholder="1.0000"
+                      required
+                      value={formData.fxRate}
+                      onChange={(e) => setFormData({ ...formData, fxRate: e.target.value })}
+                      className="h-8 bg-muted/20 border-border/40 font-mono text-[12px] tabular-nums placeholder:text-muted-foreground/40"
+                    />
                   </div>
                 </div>
               </div>
